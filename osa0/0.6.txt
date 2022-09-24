@@ -1,0 +1,14 @@
+selain->palvelin: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+palvelin-->selain: Statuskoodi 201 created
+
+note over selain:
+Selaimen lähettämässä pyynnössä ilmoitetaan
+Content-Typessä että pyynnön mukana tuleva 
+data on JSON-muodossa.
+end note
+
+note over selain
+Lomakkeen tietojen lähettäminen 
+hoidetaan selaimen lataaman 
+Javascript-tiedoston määrittelemällä koodilla.
+end note
