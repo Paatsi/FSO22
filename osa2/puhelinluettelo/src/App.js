@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import axios from 'axios'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
@@ -33,18 +32,16 @@ const App = () => {
       number: newNumber
     }
 
-    if (persons.find(element => element.name === newName)) {
-      const foundPerson = persons.find(element => element.name === newName)
-      const personCopy = { ...foundPerson }
+    const foundPerson = persons.find(element => element.name === newName)
+    if (foundPerson) {
+      const personCopy = { ...foundPerson, number: newNumber }
       if (window.confirm(`${newName} is already added to phonebook, 
       replace the old number with a new one?`)) {
         personService
-          .update(personCopy.id, personObject)
-          .then(response => personService
-            .getAll()
-            .then(persons => {
-              setPersons(persons)
-            }))
+          .update(foundPerson.id, personCopy)
+          .then(response => {
+            setPersons(persons.map(person => person.id === foundPerson.id ? response : person))
+          })
           .then(response => {
             setNotificationMessage(`${newName} phone number was changed successfully!`)
             setTimeout(() => {
@@ -78,6 +75,13 @@ const App = () => {
             setNotificationMessage(null)
           }, 3000)
         })
+        .catch(error => {
+          console.log(error.response.data)
+          setErrorMessage(`${JSON.stringify(error.response.data)}`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
+        })
     }
   }
 
@@ -98,27 +102,25 @@ const App = () => {
     if (window.confirm(`Delete ${name}?`)) {
       personService
         .deletePerson(id)
-        .then(response => personService
-          .getAll()
-          .then(initialPersons => {
-            setPersons(initialPersons)
-          }))
-          .then(response => {
-            setNotificationMessage(`${name} was deleted successfully!`)
-            setTimeout(() => {
-              setNotificationMessage(null)
-            }, 3000)
-          })
-          .catch(error => {
-            setErrorMessage(
-              `Information of ${name} has already been removed from server`
-            )
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 3000)
-          })
+        .then(response => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+        .then(response => {
+          setNotificationMessage(`${name} was deleted successfully!`)
+          setTimeout(() => {
+            setNotificationMessage(null)
+          }, 3000)
+        })
+        .catch(error => {
+          setErrorMessage(
+            `Information of ${name} has already been removed from server`
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
+        })
     }
-}
+  }
 
   return (
     <div>
