@@ -3,13 +3,22 @@ const dummy = (blogs) => {
 }
 
 const totalLikes = (blogs) => {
-  var likes = blogs.reduce((sum, blog) => {
+  const likes = blogs.reduce((sum, blog) => {
     return sum + blog.likes
+  }, 0)
+  return likes
+}
+
+const favoriteBlog = (blogs) => {
+  if (blogs.length === 0) return {}
+  const likes = blogs.reduce((prev, curr) => {
+    return (prev.likes > curr.likes) ? prev : curr
   }, 0)
   return likes
 }
 
 module.exports = {
   dummy,
-  totalLikes
+  totalLikes,
+  favoriteBlog
 }

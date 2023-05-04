@@ -1,9 +1,9 @@
-const listHelper = require('../utils/list_helper')
+const { totalLikes } = require('../utils/list_helper')
 
 describe('total likes', () => {
 
   test('empty list', () => {
-    expect(listHelper.totalLikes([])).toBe(0)
+    expect(totalLikes([])).toBe(0)
   })
 
   test('when list has only one blog equals the likes of that', () => {
@@ -18,7 +18,7 @@ describe('total likes', () => {
       }
     ]
 
-    expect(listHelper.totalLikes(listWithOneBlog)).toBe(5)
+    expect(totalLikes(listWithOneBlog)).toBe(5)
   })
 
   test('returns sum of likes when >1 blogs', () => {
@@ -72,6 +72,6 @@ describe('total likes', () => {
         __v: 0
       }
     ]
-    expect(listHelper.totalLikes(blogs)).toBe(36)
+    expect(totalLikes(blogs)).toBe(36)
   })
 })
