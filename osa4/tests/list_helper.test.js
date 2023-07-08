@@ -73,7 +73,7 @@ const multipleFavouriteBlogs = [
     title: 'TDD harms architecture',
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
-    likes: 0,
+    likes: 10,
     __v: 0
   },
   {
@@ -167,6 +167,30 @@ describe('author with most blogs', () => {
     expect(listHelper.mostBlogs(multipleFavouriteBlogs)).toEqual({
       author: 'Robert C. Martin',
       blogs: 2
+    })
+  })
+})
+
+describe('author with most likes', () => {
+  test('empty list', () => {
+    expect(listHelper.mostLikes([])).toEqual(null)
+  })
+  test('single blog', () => {
+    expect(listHelper.mostLikes(singleBlog)).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 5
+    })
+  })
+  test('multiple blogs', () => {
+    expect(listHelper.mostLikes(blogs)).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 27
+    })
+  })
+  test('multiple authors with same amount of likes', () => {
+    expect(listHelper.mostLikes(multipleFavouriteBlogs)).toEqual({
+      author: 'Edsger W. Dijkstra',
+      likes: 22
     })
   })
 })
