@@ -25,6 +25,12 @@ describe('tests for initial blogs in the DB', () => {
       .get('/api/blogs')
       .expect('Content-Type', /application\/json/)
   })
+
+  test('blogs have "id" property instead of "_id"', async () => {
+    const response = await api.get('/api/blogs')
+    response.body.forEach((blog) => expect(blog.id).toBeDefined())
+
+  })
 })
 
 
