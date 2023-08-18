@@ -53,6 +53,24 @@ describe('addition of a new blog', () => {
     const contents = blogsAtEnd.map(b => b.title)
     expect(contents).toContain('Test Blog')
   })
+
+  test('if likes has no value, it is set to 0', async () => {
+    const newBlog = {
+      title: 'Test Blog with no likes value',
+      author: 'Test Blogger',
+      url: 'https://testblogger0.com/'
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    const contents = blogsAtEnd.map(b => b.likes)
+    expect(contents).toContain(0)
+
+  })
 })
 
 
