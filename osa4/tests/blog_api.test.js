@@ -7,7 +7,6 @@ const Blog = require('../models/blog')
 const api = supertest(app)
 
 
-
 beforeEach(async () => {
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
@@ -29,7 +28,6 @@ describe('tests for initial blogs in the DB', () => {
   test('blogs have "id" property instead of "_id"', async () => {
     const response = await api.get('/api/blogs')
     response.body.forEach((blog) => expect(blog.id).toBeDefined())
-
   })
 })
 
@@ -69,7 +67,20 @@ describe('addition of a new blog', () => {
     const blogsAtEnd = await helper.blogsInDb()
     const contents = blogsAtEnd.map(b => b.likes)
     expect(contents).toContain(0)
+  })
 
+  test('blog without title or url will return status code 400', async () => {
+    const newBlog = {
+      author: 'Test Blogger',
+      likes: 10
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
   })
 })
 
