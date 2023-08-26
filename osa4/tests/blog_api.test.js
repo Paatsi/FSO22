@@ -48,8 +48,8 @@ describe('addition of a new blog', () => {
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
 
-    const contents = blogsAtEnd.map(b => b.title)
-    expect(contents).toContain('Test Blog')
+    const titles = blogsAtEnd.map(b => b.title)
+    expect(titles).toContain('Test Blog')
   })
 
   test('if likes has no value, it is set to 0', async () => {
@@ -65,8 +65,8 @@ describe('addition of a new blog', () => {
       .expect('Content-Type', /application\/json/)
 
     const blogsAtEnd = await helper.blogsInDb()
-    const contents = blogsAtEnd.map(b => b.likes)
-    expect(contents).toContain(0)
+    const likes = blogsAtEnd.map(b => b.likes)
+    expect(likes).toContain(0)
   })
 
   test('blog without title or url will return status code 400', async () => {
@@ -81,6 +81,23 @@ describe('addition of a new blog', () => {
 
     const blogsAtEnd = await helper.blogsInDb()
     expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+  })
+})
+
+describe('blog deletion', () => {
+  test('status code 204 if valid id and deletion succeeds', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+
+    const titles = blogsAtEnd.map(b => b.title)
+    expect(titles).not.toContain(blogToDelete.title)
   })
 })
 
