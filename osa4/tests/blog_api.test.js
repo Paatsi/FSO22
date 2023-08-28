@@ -3,6 +3,7 @@ const supertest = require('supertest')
 const helper = require('./test_helper')
 const app = require('../app')
 const Blog = require('../models/blog')
+const blog = require('../models/blog')
 
 const api = supertest(app)
 
@@ -98,6 +99,24 @@ describe('blog deletion', () => {
 
     const titles = blogsAtEnd.map(b => b.title)
     expect(titles).not.toContain(blogToDelete.title)
+  })
+})
+
+describe('blog update', () => {
+  test('update a blog with new data', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+
+    const newData = {
+      likes: 100
+    }
+
+    const updatedBlog = await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(newData)
+      .expect(200)
+
+    expect(updatedBlog.body.likes).toBe(newData.likes)
   })
 })
 
