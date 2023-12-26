@@ -20,5 +20,6 @@ module.exports = {
     'arrow-spacing': ['error', { before: true, after: true }],
     'react/prop-types': 0,
     'react/react-in-jsx-scope': 'off',
+    'react/display-name': 'off',
   },
 }
