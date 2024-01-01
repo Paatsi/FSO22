@@ -48,6 +48,11 @@ const App = () => {
       })
   }
 
+  const addLikes = async (id, blogObject) => {
+    await blogService.update(id, blogObject)
+    setRefreshBlog(!refreshBlog)
+  }
+
   if (user === null) {
     return (
       <div>
@@ -67,7 +72,7 @@ const App = () => {
         <BlogForm createBlog={addBlog}/>
       </Togglable>
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} addLikes={addLikes} />
       )}
     </div>
   )

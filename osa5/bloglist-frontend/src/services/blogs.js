@@ -17,8 +17,13 @@ const create = async newObject => {
   return response.data
 }
 
+const update = async (id, newObject) => {
+  const response = await axios.put(`http://localhost:3003/api/blogs/${id}`, newObject)
+  return response.data
+}
+
 const setToken = newToken => {
   token = `Bearer ${newToken}`
 }
 
-export default { getAll, create, setToken }
+export default { getAll, create, update, setToken }
