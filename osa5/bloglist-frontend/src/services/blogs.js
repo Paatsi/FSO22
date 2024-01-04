@@ -12,7 +12,6 @@ const create = async newObject => {
   const config = {
     headers: { Authorization: token },
   }
-
   const response = await axios.post('http://localhost:3003/api/blogs', newObject, config)
   return response.data
 }
@@ -22,8 +21,16 @@ const update = async (id, newObject) => {
   return response.data
 }
 
+const remove = async (id) => {
+  const config = {
+    headers: { Authorization: token },
+  }
+  const response = await axios.delete(`http://localhost:3003/api/blogs/${id}`, config)
+  return response.data
+}
+
 const setToken = newToken => {
   token = `Bearer ${newToken}`
 }
 
-export default { getAll, create, update, setToken }
+export default { getAll, create, update, remove, setToken }
