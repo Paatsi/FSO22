@@ -3,7 +3,6 @@ import axios from 'axios'
 
 const login = async credentials => {
   const response = await axios.post('http://localhost:3003/api/login', credentials)
-  console.log(response.data)
   return response.data
 }
 
