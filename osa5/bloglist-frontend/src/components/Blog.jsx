@@ -35,7 +35,7 @@ const Blog = ({ blog, addLikes, removeBlog, user }) => {
 
   return (
     <div style={blogStyle}>
-      <div style={hideWhenVisible}>
+      <div style={hideWhenVisible} data-testid="title">
         {blog.title} {blog.author}
         <button onClick={() => setVisible(!visible)}>view</button>
       </div>
