@@ -16,6 +16,10 @@ const Blog = ({ blog, addLikes, removeBlog, user }) => {
   const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
 
+  const toggleVisibility = () => {
+    setVisible(!visible)
+  }
+
   const handleLikes = () => {
     const blogObject = {
       title: blog.title,
@@ -33,25 +37,39 @@ const Blog = ({ blog, addLikes, removeBlog, user }) => {
 
   }
 
-  return (
-    <div style={blogStyle}>
-      <div style={hideWhenVisible} data-testid="title">
-        {blog.title} {blog.author}
-        <button onClick={() => setVisible(!visible)}>view</button>
+  if (!visible) {
+    return (
+      <div style={blogStyle}>
+        <div style={hideWhenVisible} data-testid="title">
+          {blog.title} {blog.author}
+          <button onClick={toggleVisibility}>view</button>
+        </div>
       </div>
-      <div style={showWhenVisible}>
-        {blog.title} {blog.author}
-        <button onClick={() => setVisible(!visible)}>hide</button>
-        <p>{blog.url}</p>
-        <p>
-          likes {blog.likes}
-          <button onClick={handleLikes}>like</button>
-        </p>
-        <p>{blog.user.name}</p>
-        {blog.user.id === user.id && <button onClick={handleRemove}>remove</button>}
+    )
+  }
+  else {
+    return (
+      <div style={blogStyle}>
+        <div style={hideWhenVisible} data-testid="title">
+          {blog.title} {blog.author}
+          <button onClick={toggleVisibility}>view</button>
+        </div>
+        <div style={showWhenVisible}>
+          {blog.title} {blog.author}
+          <button onClick={toggleVisibility}>hide</button>
+          <p>{blog.url}</p>
+          <p>
+            likes {blog.likes}
+            <button onClick={handleLikes}>like</button>
+          </p>
+          <p>{blog.user.name}</p>
+          {blog.user.id === user.id && <button onClick={handleRemove}>remove</button>}
+        </div>
       </div>
-    </div>
-  )}
+    )
+  }
+}
+
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
