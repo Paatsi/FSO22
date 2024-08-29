@@ -3,11 +3,10 @@ const Notification = ({ message }) => {
     return null
   }
 
-  return (
-    <div className="error">
-      {message}
-    </div>
-  )
+  if (message.includes('Error:'))
+    return (<div className="error">{message.substring(7)}</div>)
+
+  return <div className="blog">{message}</div>
 }
 
 export default Notification

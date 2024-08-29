@@ -24,7 +24,7 @@ const LoginForm = ({ setUser }) => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('wrong username or password')
+      setErrorMessage(`Error: ${exception.response.data.error}`)
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
@@ -40,6 +40,7 @@ const LoginForm = ({ setUser }) => {
         <div>username
           <input
             type='text'
+            data-testid='username'
             value={username}
             name='Username'
             onChange={({ target }) => setUsername(target.value)}
@@ -48,6 +49,7 @@ const LoginForm = ({ setUser }) => {
         <div>password
           <input
             type='password'
+            data-testid='password'
             value={password}
             name='Password'
             onChange={({ target }) => setPassword(target.value)}

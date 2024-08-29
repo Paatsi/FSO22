@@ -9,7 +9,7 @@ import Togglable from './components/Togglable'
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
   const [refreshBlog, setRefreshBlog] = useState(false)
 
   const blogFormRef = useRef()
@@ -42,9 +42,9 @@ const App = () => {
       .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
         setRefreshBlog(!refreshBlog)
-        setErrorMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
+        setMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author} added`)
         setTimeout(() => {
-          setErrorMessage(null)
+          setMessage(null)
         }, 5000)
       })
   }
@@ -71,7 +71,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification message={errorMessage} />
+      <Notification message={message} />
       <div>{user.name} logged in
         <button type='submit' onClick={handleLogout}>logout</button>
       </div>
