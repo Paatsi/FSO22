@@ -51,5 +51,6 @@ describe('Blog app', () => {
       await expect(page.getByText('Test Blog Tester')).toBeVisible()
       await expect(page.getByRole('button', { name: 'create new blog' })).toBeVisible()
     })
+    
   })
 })
