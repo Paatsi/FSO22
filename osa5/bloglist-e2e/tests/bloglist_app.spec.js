@@ -78,6 +78,24 @@ describe('Blog app', () => {
         await page.getByRole('button', { name: 'remove' }).click()
         await expect(blog).not.toBeVisible()
       })
+
+      test('only the user who added the blog is able to see the remove button', async ({ page, request }) => {
+        const blog = page.locator('.blog').filter({ hasText: 'Test Blog2' })
+        await blog.getByRole('button', { name: 'view' }).click()
+        await expect(blog.getByRole('button', { name: 'remove' })).toBeVisible()
+        
+        await request.post('http://localhost:3003/api/users', {
+          data: {
+            username: 'other user',
+            name: 'dummy',
+            password: 'password',
+          }
+        })
+        await page.getByRole('button', { name: 'logout' }).click()
+        await loginWith(page, 'other user', 'password')
+        await blog.getByRole('button', { name: 'view' }).click()
+        await expect(blog.getByRole('button', { name: 'remove' })).not.toBeVisible()
+      })
     })
   })
 })
