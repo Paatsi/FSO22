@@ -37,10 +37,11 @@ const Blog = ({ blog, addLikes, removeBlog, user }) => {
 
   }
 
+
   if (!visible) {
     return (
-      <div style={blogStyle}>
-        <div style={hideWhenVisible} data-testid="title">
+      <div style={blogStyle} className="blog">
+        <div style={hideWhenVisible}>
           {blog.title} {blog.author}
           <button onClick={toggleVisibility}>view</button>
         </div>
@@ -49,8 +50,8 @@ const Blog = ({ blog, addLikes, removeBlog, user }) => {
   }
   else {
     return (
-      <div style={blogStyle}>
-        <div style={hideWhenVisible} data-testid="title">
+      <div style={blogStyle} className="blog">
+        <div style={hideWhenVisible}>
           {blog.title} {blog.author}
           <button onClick={toggleVisibility}>view</button>
         </div>
@@ -69,6 +70,7 @@ const Blog = ({ blog, addLikes, removeBlog, user }) => {
     )
   }
 }
+
 
 
 Blog.propTypes = {

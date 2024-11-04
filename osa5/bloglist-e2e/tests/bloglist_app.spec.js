@@ -15,7 +15,7 @@ describe('Blog app', () => {
     await page.goto('/')
   })
 
-  test('Login form is shown', async ({ page }) => {
+  test('login form is shown', async ({ page }) => {
     await expect(page.getByText('Log in to application')).toBeVisible()
     await expect(page.getByText('username')).toBeVisible()
     await expect(page.getByText('password')).toBeVisible()
@@ -59,6 +59,25 @@ describe('Blog app', () => {
       await page.getByRole('button', { name: 'like' }).click()
       await expect(page.getByText('likes 1')).toBeVisible()
     })
-  })
 
+    describe('Multiple blogs can be added and edited', () => {
+      beforeEach(async ({ page }) => {
+        await createBlog(page, 'Test Blog1', 'Tester', 'http://localhost/5173')
+        await createBlog(page, 'Test Blog2', 'Tester', 'http://localhost/5173')
+        await createBlog(page, 'Test Blog3', 'Tester', 'http://localhost/5173')
+      })
+  
+      test('the user who added the blog is able to delete it', async ({ page }) => {
+        const blog = page.locator('.blog').filter({ hasText: 'Test Blog2' })
+        await blog.getByRole('button', { name: 'view' }).click()
+        await expect(blog.getByRole('button', { name: 'remove' })).toBeVisible()
+
+        page.on('dialog', async (dialog) => {
+          await dialog.accept()
+        })
+        await page.getByRole('button', { name: 'remove' }).click()
+        await expect(blog).not.toBeVisible()
+      })
+    })
+  })
 })
