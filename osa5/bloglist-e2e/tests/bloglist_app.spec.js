@@ -96,6 +96,28 @@ describe('Blog app', () => {
         await blog.getByRole('button', { name: 'view' }).click()
         await expect(blog.getByRole('button', { name: 'remove' })).not.toBeVisible()
       })
+
+      test('the blogs are in descending order determined by likes', async ({ page }) => {
+        const blog2 = page.locator('.blog').filter({ hasText: 'Test Blog2' })
+        const blog1 = page.locator('.blog').filter({ hasText: 'Test Blog1' })
+        const blog3 = page.locator('.blog').filter({ hasText: 'Test Blog3' })
+
+        await blog1.getByRole('button', { name: 'view' }).click()
+        await blog2.getByRole('button', { name: 'view' }).click()
+        await blog3.getByRole('button', { name: 'view' }).click()
+
+        await blog2.getByRole('button', { name: 'like' }).click()
+        await expect(blog2.locator("[data-testid='likes']")).toHaveText('1')
+        await blog2.getByRole('button', { name: 'like' }).click()
+        await expect(blog2.locator("[data-testid='likes']")).toHaveText('2')
+        await blog3.getByRole('button', { name: 'like' }).click()
+        await expect(blog3.locator("[data-testid='likes']")).toHaveText('1')
+
+        const blogs = page.locator('.blog')
+        await expect(blogs.first()).toContainText('Test Blog2')
+        await expect(blogs.nth(1)).toContainText('Test Blog3')
+        await expect(blogs.last()).toContainText('Test Blog1')
+      })
     })
   })
 })

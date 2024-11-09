@@ -60,7 +60,7 @@ const Blog = ({ blog, addLikes, removeBlog, user }) => {
           <button onClick={toggleVisibility}>hide</button>
           <p>{blog.url}</p>
           <p>
-            likes {blog.likes}
+                likes <span data-testid='likes'>{blog.likes}</span>
             <button onClick={handleLikes}>like</button>
           </p>
           <p>{blog.user.name}</p>
