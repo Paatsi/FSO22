@@ -5,7 +5,6 @@ import anecdoteReducer, { setAnecdotes } from './reducers/anecdoteReducer'
 import App from './App'
 import store from './store'
 
-
 anecdoteService.getAll().then(anecdotes =>
 	store.dispatch(setAnecdotes(anecdotes))
   )
