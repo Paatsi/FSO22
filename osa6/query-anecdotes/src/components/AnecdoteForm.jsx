@@ -1,4 +1,4 @@
-const AnecdoteForm = () => {
+const AnecdoteForm = ({ addAnecdote }) => {
 
   const onCreate = (event) => {
     event.preventDefault()
