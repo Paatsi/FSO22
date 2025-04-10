@@ -14,7 +14,7 @@ const AnecdoteForm = () => {
 
 	const getId = () => (100000 * Math.random()).toFixed(0)
 
-	const addAnecdote = async (event) => {
+	const addAnecdote = (event) => {
 		event.preventDefault()
 		const content = event.target.anecdote.value
 		event.target.anecdote.value = ''
