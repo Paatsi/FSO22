@@ -17,11 +17,6 @@ const AnecdoteForm = () => {
 	const addAnecdote = async (event) => {
 		event.preventDefault()
 		const content = event.target.anecdote.value
-		if (content.length < 5) {
-			console.log('Anecdote content must be at least 5 characters long')
-			event.target.anecdote.value = ''
-			return
-		}
 		event.target.anecdote.value = ''
 		newAnecdoteMutation.mutate({ content, id: getId(), votes: 0 })
 	}
